@@ -23,7 +23,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const login = async () => {
-    const duration = 10000;
+    const duration = 3000;
 
     if (!validate) {
       return;
