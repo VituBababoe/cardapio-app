@@ -23,12 +23,13 @@ export default function Login() {
   const navigate = useNavigate();
 
   const login = async () => {
-    const duration = 3000;
+    const duration = 1000;
 
     if (!validate) {
       return;
     }
     try {
+
       const response = await api.post<{
         token: string;
         refreshToken: string;
@@ -38,7 +39,10 @@ export default function Login() {
         senha: values.senha,
       });
 
+
       const { token, refreshToken, message } = response.data;
+
+      console.log("Login bem-sucedido:", token);
 
       localStorage.setItem('token', token);
       localStorage.setItem('refreshToken', refreshToken);

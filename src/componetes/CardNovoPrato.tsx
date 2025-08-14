@@ -1,30 +1,20 @@
-import React, { useContext } from "react";
-import adicionarPrato from "../assets/imagem_adicionar_prato.jpg";
+import React from "react";
+import pratoImg from "../assets/imagem_adicionar_prato.jpg"
 import { Link } from "react-router-dom";
-import "../estilos/CardNovoPrato.css";
-import { AuthContext } from "../context/authContext";
+import "../estilos/CardNovoPrato.css"
 
-const CardNovoPrato = () => {
-  const authContext = useContext(AuthContext);
+const CadNovoPrato = () => {
+    return (
+        <Link to="/cadastro-prato" className="prato-card">
 
-  if (!authContext) {
-    throw new Error("AuthContext não está disponível");
-  }
+            <div className="card-adicionar">
+              <button className="botao-adicionar">
+                <img src={pratoImg} alt="" />
+                <p className="texto">Adicionar</p>
+              </button>
+            </div>
+        </Link>
+    );
+}
 
-  const { usuario, verificarLogin } = authContext;
-
-  return (
-    <div>
-    { usuario?.role === "Gerente" && (
-    <Link to="/cadastro-prato" className="link-card">
-        <div className="prato-card">
-          <img src={adicionarPrato} alt="Imagem do prato" />
-          <h2>Clique aqui para adicionar um novo prato</h2>
-        </div>
-      </Link>
-    )}
-      </div>
-  );
-};
-
-export default CardNovoPrato;
+export default CadNovoPrato;

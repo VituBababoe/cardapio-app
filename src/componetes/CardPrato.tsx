@@ -1,52 +1,70 @@
-import React, { FC, useContext } from "react";
+import React, { FC } from "react";
 import "../estilos/CardPrato.css";
-import { AuthContext } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
+import api from "../http/api";
 
 interface CardPratoProps {
-  nome: string;
-  cozinha: string;
-  descricaoCurta: string;
-  imagem: string;
-  
+  id : number
+  nome : string
+  cozinha : string
+  descricao_resumida : string
+  imagem : string
+  usuario: any
 }
 
 const CardPrato: FC<CardPratoProps> = (props) => {
-  const authContext = useContext(AuthContext); 
+  const navigate = useNavigate()
 
-  if (!authContext) {
-    throw new Error("AuthContext não está disponível");
-  }
-
-  const { usuario, verificarLogin } = authContext;
+  const deletePrato = async (id: number) => {
+    try {
+      console.log("Excluindo prato com ID:", id);
+      await api.delete(`/pratos/${id}`);
+      console.log("Prato excluído com sucesso");
+      // Aqui você pode atualizar o estado ou fazer outra ação após a exclusão
+    } catch (error) {
+      console.error("Erro ao excluir prato:", error);
+    }
+  };
 
   return (
-    <div className="prato-card">
-      {usuario?.role === "Gerente" && (
-        <div className="menu-container">
+    <>
+      <div className="prato-card">
+        {props.usuario?.role === 'Gerente' && (<div className="menu-container">
           <button className="menu-button" onClick={() => {}}>
             &#x22EE;
           </button>
           <div className="dropdown-menu">
-            <a href="#" className="dropdown-item">
+            <button
+            className="dropdown-item"
+            onClick={() => navigate(`/editar-prato/${props.id}`)}>
               Editar
-            </a>
-            <a href="#" className="dropdown-item">
-              Deletar
-            </a>
-            <a href="#" className="dropdown-item">
+            </button>
+            
+            <button 
+            className="dropdown-item"
+            onClick={() => {deletePrato(props.id)}}>
+              Excluir
+            </button>
+            <button
+            className="dropdown-item"
+            onClick={() => navigate(`/detalhes-prato/${props.id}`)}
+            >
               Ver Detalhes
-            </a>
+            </button>
           </div>
-        </div>
-      )}
-      <img src={props.imagem} alt="Feijoada brasileira" />
-      <h2 className="nome-prato">{props.nome}</h2>
-      <p className="cozinha-prato">{props.cozinha}</p>
-      <p className="descricao-curta-prato">{props.descricaoCurta}</p>
-      <a href="#" className="btn">
-        Ver Detalhes
-      </a>
-    </div>
+          </div>)}
+        <img
+          src={props.imagem}
+          alt="Feijoada brasileira"
+        />
+        <h2 className="nome-prato">{props.nome}</h2>
+        <p className="cozinha-prato">{props.cozinha}</p>
+        <p className="descricao-curta-prato">{props.descricao_resumida}</p>
+        <a href="#" className="btn" onClick={() => navigate(`/detalhes-prato/${props.id}`)}>
+          Ver Detalhes
+        </a>
+      </div>
+    </>
   );
 };
 

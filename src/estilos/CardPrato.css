@@ -95,10 +95,17 @@
   font-size: 16px;
   font-weight: bold; /* Fonte mais destacada */
   cursor: pointer;
+  width: 100%;
 }
 
 .dropdown-item:hover,
 .dropdown-item:focus {
   background-color: #f0f0f0;
   color: #007bff;
+}
+
+.bnt {
+  width: 30%;
+  height: 15%;
+  background-color: #b1b0b0;
 }

@@ -16,12 +16,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       window.location.href = "/login";
       return;
     }
+    console.log("Token encontrado:", token);
     const dadosUsuario = atob(token.split(".")[1]);
     if (dadosUsuario) {
+      const parsedDadosUsuario = JSON.parse(dadosUsuario);
+      console.log("kaio gay", parsedDadosUsuario);
       setUsuario(JSON.parse(dadosUsuario));
     }
   };
-
   useEffect(() => {
     verificarLogin();
   }, []);
